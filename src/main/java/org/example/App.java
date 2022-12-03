@@ -6,6 +6,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class App {
@@ -19,11 +22,15 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 3);
-            System.out.println(person);
+            Person person = new Person("Test person", 30);
 
-            List<Item> items = person.getItems();
-            System.out.println(items);
+            Item newItem = new Item("Item from Hibernate 2", person);
+
+            person.setItems(new ArrayList<>(Collections.singletonList(newItem)));
+
+            session.save(person);
+
+            session.save(newItem);
 
             session.getTransaction().commit();
 

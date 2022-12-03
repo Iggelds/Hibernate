@@ -22,8 +22,9 @@ public class Item {
 
     }
 
-    public Item(String item_name) {
+    public Item(String item_name, Person owner) {
         this.item_name = item_name;
+        this.owner = owner;
     }
 
     public int getId() {
