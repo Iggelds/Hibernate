@@ -1,10 +1,13 @@
 package org.example.model;
+
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
+
+import java.util.List;
+import java.util.MissingFormatArgumentException;
 
 @Entity
-@Table(name = "Person")
-public class Person {
+@Table(name = "Actor")
+public class Actor {
 
     @Id
     @Column(name = "id")
@@ -17,14 +20,18 @@ public class Person {
     @Column(name = "age")
     private int age;
 
-    @OneToOne(mappedBy = "person")
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    private Passport passport;
+    @ManyToMany
+    @JoinTable(
+            name = "Actor_Movie",
+            joinColumns = @JoinColumn(name = "actor_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
+    private List<Movie> movies;
 
-    public Person() {
-    }
 
-    public Person(String name, int age) {
+    public Actor() {}
+
+    public Actor(String name, int age) {
         this.name = name;
         this.age = age;
     }
@@ -53,23 +60,20 @@ public class Person {
         this.age = age;
     }
 
-    public Passport getPassport() {
-        return passport;
+    public List<Movie> getMovies() {
+        return movies;
     }
 
-    public void setPassport(Passport passport) {
-        this.passport = passport;
-        passport.setPerson(this);
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Actor{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 '}';
     }
 }
-
-
