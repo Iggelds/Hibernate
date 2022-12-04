@@ -22,18 +22,15 @@ public class App {
         try {
             session.beginTransaction();
 
-            Person person = new Person("Test person", 30);
+            Person person = new Person("Test cascading", 30);
 
-            Item newItem = new Item("Item from Hibernate 2", person);
-
-            person.setItems(new ArrayList<>(Collections.singletonList(newItem)));
+            person.addItem(new Item("Item1"));
+            person.addItem(new Item("Item2"));
+            person.addItem(new Item("Item3"));
 
             session.save(person);
 
-            session.save(newItem);
-
             session.getTransaction().commit();
-
         } finally {
             sessionFactory.close();
         }
